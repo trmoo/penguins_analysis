@@ -1,0 +1,57 @@
+# 푸시할 때마다 시험 → 빌드 → 점검을 거쳐 GitHub Pages 에 올린다.
+# dist/ 는 커밋하지 않는다. 시험이나 점검이 실패하면 배포도 멈춘다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: 시험 (진짜 pandas 대조 · 단계별 정답/오답 · 오류 도움말)
+        run: npm test
+      - run: npm run build
+      - name: 빌드 결과 점검
+        run: |
+          set -e
+          test -f dist/index.html
+          SIZE=$(wc -c < dist/index.html)
+          echo "dist/index.html: $SIZE bytes"
+          if [ "$SIZE" -lt 150000 ]; then echo "빌드 결과가 너무 작다"; exit 1; fi
+          if grep -qE '(src|href)="https?://' dist/index.html; then echo "바깥 자원 참조가 있다"; exit 1; fi
+          grep -q '펭귄 데이터 전처리 실습실' dist/index.html
+      - uses: actions/configure-pages@v5
+        continue-on-error: true
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

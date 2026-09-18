@@ -1,0 +1,18 @@
+{
+  "name": "penguins-lab",
+  "version": "1.0.0",
+  "description": "펭귄 데이터 전처리 실습실 — 데이터 수집·결측치·이상치·정규화 명령어 실습",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node test/run.mjs"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}
