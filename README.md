@@ -11,10 +11,10 @@
 
 | 단계 | 실습하는 명령어 |
 |---|---|
-| 1 데이터 수집과 특성 분석 | `pd.read_csv` · `head` · `info` · `describe` (+ `shape` · `value_counts` · `tail`) |
-| 2 결측치 처리 | `isnull().sum()` · `mean` · `fillna(값, inplace=True)` (+ `loc` · `info`) |
+| 1 데이터 수집과 특성 분석 | `pd.read_csv` · `head` · `info` · `describe` |
+| 2 결측치 처리 | `isnull().sum()` · `mean` · `fillna(값, inplace=True)` |
 | 3 이상치 처리하기 | `boxplot` · `np.percentile` · IQR 울타리 · `(조건) \| (조건)` · `drop` · `shape` |
-| 4 정규화 | `MinMaxScaler().fit_transform` · `pd.DataFrame` · `plt.figure` · `plt.subplot` · `plt.show` |
+| 4 정규화 | `MinMaxScaler().fit_transform` · `pd.DataFrame` · `plt.figure` · `plt.subplot` · `plt.show` (+ 더 해 보기: `describe` · 공식으로 직접 정규화) |
 
 - 단계마다 **👀 눈으로 보기**(빈칸 지도, IQR 울타리 실험실, 정규화 계산기 등)와 **📝 확인 문제**가 있습니다.
 - 교사는 툴바의 **👩‍🏫 정답 채우기** → **▶ 위에서부터 모두 실행** 으로 한 번에 시연할 수 있습니다.
